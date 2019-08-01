@@ -14,13 +14,3 @@ exports.create_user = functions.auth.user().onCreate((user) => {
   const {uid, email, saldo = 0} = user
   return firestore.doc(`users/${uid}`).set({uid, email, saldo})
 })
-
-firestore.collection('users').get()
-.then((snapshot) => {
- snapshot.forEach((doc) => {
-   console.log(doc.id, '=>', doc.data());
- });
-})
-.catch((err) => {
- console.log('Error getting documents', err);
-});

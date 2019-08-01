@@ -11,10 +11,10 @@
       <div class="depositar-valor">
         <p class="item">Informe a <strong>quantidade</strong> desejada
         </p>
-        <input class="item" autofocus type="text" placeholder="$KA 250,00" />
+        <input v-model="valorPagar" class="item" autofocus type="number" placeholder="$KA 250,00" />
         <p class="item" style="color:#333333; font-size:10px;">Digite um valor entre $KA 10,00 e $KA 15.000,00</p>
         <div class="action">
-          <button>Pagar</button>
+          <button @click="pagar">Pagar</button>
         </div>
       </div>
     </div>
@@ -22,18 +22,41 @@
 </template>
 
 <script>
+import * as firebase from 'firebase'
 export default {
   name: "pagamento",
+  data: () => ({
+    valorPagar: '',
+    
+  }),
   methods: {
       handleIndex(){
           this.$router.push({path: '/sarakin'})
+      },
+      pagar(){
+        let saldoAfter = ''
+        let saldoBefor = ''
+        const uid = firebase.auth().currentUser.uid
+        if (this.valorPagar >= 10 && this.valorPagar <= 15000) {
+          firebase.firestore().collection(`users`).doc(uid).get()
+          .then((doc) => {
+            saldoAfter = doc.data().saldo
+            saldoBefor = saldoAfter-this.valorPagar
+            firebase.firestore().collection(`users`).doc(uid).update({saldo: saldoBefor})
+            alert ('Pagamento efetuado com Sucesso!')
+          })
+        }else{
+          alert('Por favor inserir um valor entre $KA 10 e $KA 15.000')
+        }
       }
   }
 };
 </script>
 
  <style scoped>
- 
+ input[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;   
+}
 .pagar {
   display: flex;
   width: 100%;

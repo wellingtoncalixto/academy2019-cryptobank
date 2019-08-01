@@ -25,7 +25,7 @@ import * as firebase from 'firebase'
 export default {
   name: "sarakin",
   data: () => ({
-    valor: 0
+    valor: ''
   }),
   methods:{
         handleDepositar (){
@@ -49,7 +49,7 @@ export default {
             this.valor = doc.data().saldo
           }).catch((err) => {
             console.log('Error getting documents', err);
-            });     
+          })   
         }
   }
 };
