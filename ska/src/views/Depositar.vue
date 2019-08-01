@@ -11,10 +11,10 @@
       <div class="depositar-valor">
         <p class="item">Informe a <strong>quantidade</strong> desejada
         </p>
-        <input class="item" autofocus type="text" placeholder="$KA 250,00" />
+        <input v-model="valorDepositar" class="item" autofocus type="text" placeholder="$KA 250,00" />
         <p class="item" style="color:#333333; font-size:10px;">Digite um valor entre $KA 10,00 e $KA 15.000,00</p>
         <div class="action">
-          <button>Depositar</button>
+          <button @click="depositar">Depositar</button>
         </div>
       </div>
     </div>
@@ -22,11 +22,31 @@
 </template>
 
 <script>
+import * as firebase from 'firebase'
 export default {
   name: "deposito",
+  data: () => ({
+    valorDepositar: '',
+    
+  }),
   methods: {
       handleIndex(){
           this.$router.push({path: '/sarakin'})
+      },
+      depositar(){
+        let saldo = 0
+        const uid = firebase.auth().currentUser.uid
+        if (this.valorDepositar >= 10 && this.valorDepositar <= 15000) {
+          firebase.firestore().collection(`users`).doc(uid).get()
+          .then((doc) => {
+            saldo = doc.data().saldo
+            saldo += parseInt(this.valorDepositar)
+            firebase.firestore().collection(`users`).doc(uid).update({saldo: saldo})
+            alert ('Deposito efetuado com Sucesso!')
+          })
+        }else{
+          alert('Por favor inserir um valor entre $KA 10 e $KA 15.000')
+        }
       }
   }
 };

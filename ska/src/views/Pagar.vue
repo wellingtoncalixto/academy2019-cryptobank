@@ -34,16 +34,19 @@ export default {
           this.$router.push({path: '/sarakin'})
       },
       pagar(){
-        let saldoAfter = ''
-        let saldoBefor = ''
+        let saldo=''
         const uid = firebase.auth().currentUser.uid
         if (this.valorPagar >= 10 && this.valorPagar <= 15000) {
           firebase.firestore().collection(`users`).doc(uid).get()
           .then((doc) => {
-            saldoAfter = doc.data().saldo
-            saldoBefor = saldoAfter-this.valorPagar
-            firebase.firestore().collection(`users`).doc(uid).update({saldo: saldoBefor})
+            saldo = doc.data().saldo
+            if(saldo >= 0){
+            saldo -= parseInt(this.valorPagar)
+            firebase.firestore().collection(`users`).doc(uid).update({saldo: saldo})
             alert ('Pagamento efetuado com Sucesso!')
+            }else{
+              alert('Voce não tem saldo o suficiente para realizar esse pagamento. \n\n Faça um deposito primeiro.')
+            } 
           })
         }else{
           alert('Por favor inserir um valor entre $KA 10 e $KA 15.000')
