@@ -53,9 +53,6 @@ export default {
 </script>
 
 <style scoped>
-textarea:focus, input:focus, select:focus {
-   outline: 0;
-}
 .account{
     display: flex;
     width: 100%;

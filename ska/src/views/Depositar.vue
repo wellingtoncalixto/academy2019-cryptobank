@@ -11,7 +11,7 @@
       <div class="depositar-valor">
         <p class="item">Informe a <strong>quantidade</strong> desejada
         </p>
-        <input class="item" type="text" placeholder="$KA 250,00" />
+        <input class="item" autofocus type="text" placeholder="$KA 250,00" />
         <p class="item" style="color:#333333; font-size:10px;">Digite um valor entre $KA 10,00 e $KA 15.000,00</p>
         <div class="action">
           <button>Depositar</button>

@@ -29,15 +29,6 @@
 
 <script>
 import * as firebase from 'firebase';
-firebase.collection('users').get()
- .then((snapshot) => {
-   snapshot.forEach((doc) => {
-     console.log(doc.id, '=>', doc.data());
-   });
- })
- .catch((err) => {
-   console.log('Error getting documents', err);
- });
 export default {
   name: "login",
   data: () => ({

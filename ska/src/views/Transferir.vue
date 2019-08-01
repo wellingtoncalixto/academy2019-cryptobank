@@ -15,7 +15,7 @@
           Informe a
           <strong>quantidade</strong> desejada
         </p>
-        <input class="item" type="text" placeholder="$KA 250,00" />
+        <input class="item" autofocus type="text" placeholder="$KA 250,00" />
         <p
           class="item"
           style="color:#333333; font-size:10px;"
