@@ -31,6 +31,14 @@ const router = new Router({
         requiresAuth: false
       }   
     },
+    {
+      path: '/sarakin',
+      name:'sarakin',
+      component : Index,
+      meta: {
+        requiresAuth: true
+      }    
+    },
   ]
 })
 router.beforeEach((to, from, next) => {
