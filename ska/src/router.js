@@ -23,6 +23,14 @@ const router = new Router({
       name: 'login',
       component: Login
     },
+    {
+      path: '/create-account',
+      name: 'nova-conta',
+      component: () => import(/* webpackChunkName: "login" */ './views/CreateAccount.vue'),
+      meta: {
+        requiresAuth: false
+      }   
+    },
   ]
 })
 router.beforeEach((to, from, next) => {
