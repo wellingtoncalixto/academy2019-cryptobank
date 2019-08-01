@@ -9,7 +9,7 @@
       </div>
       <div class="content-saldo">
         <p>Saldo disponivel</p>
-        <h1 style="color:#333333">$KA 3.0000,00</h1>
+        <h1 style="color:#333333">$KA {{getValor()}}{{valor}}</h1>
       </div>
       <div class="action">
         <button @click="handleDepositar"><img src="../assets/piggy-bank.png" alt=""><p>Depositar</p></button>
@@ -21,9 +21,12 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import * as firebase from 'firebase'
 export default {
   name: "sarakin",
+  data: () => ({
+    valor: 0
+  }),
   methods:{
         handleDepositar (){
           this.$router.push({path: '/sarakin/depositar'})
@@ -38,6 +41,15 @@ export default {
           firebase.auth().signOut().then(() => {
             this.$router.push({path: '/login'})
           })
+        },
+        getValor(){
+          const uid = firebase.auth().currentUser.uid
+         firebase.firestore().collection(`users`).doc(uid).get()
+          .then((doc) => {
+            this.valor = doc.data().saldo
+          }).catch((err) => {
+            console.log('Error getting documents', err);
+            });     
         }
   }
 };
