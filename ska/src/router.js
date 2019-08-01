@@ -39,6 +39,30 @@ const router = new Router({
         requiresAuth: true
       }    
     },
+    {
+      path: '/sarakin/depositar',
+      name: 'deposito',
+      component: () => import(/* webpackChunkName: "login" */ './views/Depositar.vue'),
+      meta: {
+        requiresAuth: true
+      }  
+    },
+    {
+      path: '/sarakin/pagar',
+      name: 'pagamento',
+      component: () => import(/* webpackChunkName: "login" */ './views/Pagar.vue'),
+      meta: {
+        requiresAuth: true
+      }  
+    },
+    {
+      path: '/sarakin/transferir',
+      name: 'transferir',
+      component: () => import(/* webpackChunkName: "login" */ './views/Transferir.vue'),
+      meta: {
+        requiresAuth: true
+      }  
+    }
   ]
 })
 router.beforeEach((to, from, next) => {
