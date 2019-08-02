@@ -96,4 +96,9 @@ Firebase deploy
 
 Esse comando vai fazer com que as funções no arquivo index.js sejam adicionadas as functions do projeto.
 
-Feito isso o seu projeto deve estar rodando perfeitamente 
+Feito isso o seu projeto deve estar rodando perfeitamente.
+
+Link para o projeto rodando em hosting no Firebase
+```
+https://academy2019-cryptobank-632cd.firebaseapp.com/
+```
