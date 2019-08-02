@@ -48,11 +48,17 @@ export default {
     emails:[],     
   }),
   mounted () {
+    const email = firebase.auth().currentUser.email
+    console.log(email)
     firebase.firestore().collection(`users`).get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
           this.emails.push(doc.data().email)
-          console.log(this.email)
+          const index = this.emails.indexOf(email)
+          if (index > -1) {
+            this.emails.splice(index,1)
+          }
+          console.log(this.emails)
         });
     })
     .catch(function(error) {
@@ -65,15 +71,16 @@ export default {
     },
     transferir(){
         let saldo
-        const uid = firebase.auth().currentUser.uid
+        const uid = firebase.auth().currentUser.ui
         if (this.valorTransferir >= 10 && this.valorTransferir <= 15000) {
+          // pega o usuario logado da coleção e faz a retirada do saldoe atualiza o saldo
           firebase.firestore().collection(`users`).doc(uid).get()
           .then((doc) => {
             saldo = doc.data().saldo
-            if(saldo > 0 && saldo < this.valorTransferir){
+            if(saldo > 0 && saldo > this.valorTransferir){
             saldo -= parseInt(this.valorTransferir)
             firebase.firestore().collection(`users`).doc(uid).update({saldo: saldo})
-            console.log(this.select)
+            // pega o usuario que ira receber a transferencia pelo this.select que veio fo select e faz a adição e update no saldo
             firebase.firestore().collection(`users`).where('email', '==', this.select).get()
               .then(snapshot => {
                 snapshot.forEach(doc => {
@@ -85,7 +92,7 @@ export default {
                 })  
               })
             }else{
-              alert('Voce não tem saldo o suficiente para realizar esse pagamento. \n\n Faça um deposito primeiro.')
+              alert('Voce não tem saldo o suficiente para realizar essa transferencia. \n\n Faça um deposito primeiro.')
             } 
           })
         }else{
