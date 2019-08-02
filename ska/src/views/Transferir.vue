@@ -31,7 +31,7 @@
         </select>
         </div>
         <div class="action">
-          <button @click="transferir()">Tranferir</button>
+          <button @click="transferir()">Transferir</button>
         </div>
       </div>
     </div>
@@ -70,7 +70,7 @@ export default {
           firebase.firestore().collection(`users`).doc(uid).get()
           .then((doc) => {
             saldo = doc.data().saldo
-            if(saldo > 0){
+            if(saldo > 0 && saldo < this.valorTransferir){
             saldo -= parseInt(this.valorTransferir)
             firebase.firestore().collection(`users`).doc(uid).update({saldo: saldo})
             console.log(this.select)
@@ -81,7 +81,7 @@ export default {
                   let uidtransfer = doc.data().uid
                   saldo += parseInt(this.valorTransferir)
                   firebase.firestore().collection(`users`).doc(uidtransfer).update({saldo: saldo})
-                  alert ('Pagamento efetuado com Sucesso!')
+                  alert ('Transferencia efetuada com Sucesso!')
                 })  
               })
             }else{

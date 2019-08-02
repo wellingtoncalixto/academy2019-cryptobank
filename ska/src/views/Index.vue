@@ -14,7 +14,7 @@
       <div class="action">
         <button @click="handleDepositar"><img src="../assets/piggy-bank.png" alt=""><p>Depositar</p></button>
         <button @click="handlePagar"><img src="../assets/pay.png" alt=""><p>Pagar</p></button>
-        <button @click="handleTransferir"><img src="../assets/debit-card.png" alt=""><p>Transfrir</p></button>
+        <button @click="handleTransferir"><img src="../assets/debit-card.png" alt=""><p>Transferir</p></button>
       </div>
     </div>
   </div>
