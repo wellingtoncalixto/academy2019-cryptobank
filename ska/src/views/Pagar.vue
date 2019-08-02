@@ -40,7 +40,7 @@ export default {
           firebase.firestore().collection(`users`).doc(uid).get()
           .then((doc) => {
             saldo = doc.data().saldo
-            if(saldo >= 0){
+            if(saldo > 0){
             saldo -= parseInt(this.valorPagar)
             firebase.firestore().collection(`users`).doc(uid).update({saldo: saldo})
             alert ('Pagamento efetuado com Sucesso!')

@@ -15,7 +15,7 @@
           Informe a
           <strong>quantidade</strong> desejada
         </p>
-        <input class="item" autofocus type="text" placeholder="$KA 250,00" />
+        <input v-model="valorTransferir" class="item" autofocus type="text" placeholder="$KA 250,00" />
         <p
           class="item"
           style="color:#333333; font-size:10px;"
@@ -23,14 +23,15 @@
       </div>
       <div class="selecao-user">
         <p class="item">Para <strong>quem</strong> você deseja <strong>enviar?</strong></p>
-        <div class="selecao">
-        <select>
-          <option class="item" value="teste">ola</option>
-          <option value="teste">ola</option>
+        <div class="selecao"> 
+        <select v-model="select">
+          <option class="item" v-for="email  in emails" :key="email" :value="email">
+           {{email}}
+          </option>
         </select>
         </div>
         <div class="action">
-          <button>Tranferir</button>
+          <button @click="transferir()">Tranferir</button>
         </div>
       </div>
     </div>
@@ -38,12 +39,59 @@
 </template>
 
 <script>
+import * as firebase from 'firebase'
 export default {
   name: "transferir",
+  data: () => ({
+    valorTransferir: '',
+    select: '',
+    emails:[],     
+  }),
+  mounted () {
+    firebase.firestore().collection(`users`).get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          this.emails.push(doc.data().email)
+          console.log(this.email)
+        });
+    })
+    .catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
+  },
   methods: {
     handleIndex() {
       this.$router.push({ path: "/sarakin" });
-    }
+    },
+    transferir(){
+        let saldo
+        const uid = firebase.auth().currentUser.uid
+        if (this.valorTransferir >= 10 && this.valorTransferir <= 15000) {
+          firebase.firestore().collection(`users`).doc(uid).get()
+          .then((doc) => {
+            saldo = doc.data().saldo
+            if(saldo > 0){
+            saldo -= parseInt(this.valorTransferir)
+            firebase.firestore().collection(`users`).doc(uid).update({saldo: saldo})
+            console.log(this.select)
+            firebase.firestore().collection(`users`).where('email', '==', this.select).get()
+              .then(snapshot => {
+                snapshot.forEach(doc => {
+                  saldo = doc.data().saldo
+                  let uidtransfer = doc.data().uid
+                  saldo += parseInt(this.valorTransferir)
+                  firebase.firestore().collection(`users`).doc(uidtransfer).update({saldo: saldo})
+                  alert ('Pagamento efetuado com Sucesso!')
+                })  
+              })
+            }else{
+              alert('Voce não tem saldo o suficiente para realizar esse pagamento. \n\n Faça um deposito primeiro.')
+            } 
+          })
+        }else{
+          alert('Por favor inserir um valor entre $KA 10 e $KA 15.000')
+        }
+      }
   }
 };
 </script>
@@ -92,6 +140,7 @@ export default {
   flex-direction: column;
   background-color: white;
   border-radius: 10px;
+  height: 150px;
 }
 .depositar-valor p {
   color: #333333;
