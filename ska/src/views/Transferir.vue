@@ -71,13 +71,13 @@ export default {
     },
     transferir(){
         let saldo
-        const uid = firebase.auth().currentUser.ui
+        const uid = firebase.auth().currentUser.uid
         if (this.valorTransferir >= 10 && this.valorTransferir <= 15000) {
           // pega o usuario logado da coleção e faz a retirada do saldoe atualiza o saldo
           firebase.firestore().collection(`users`).doc(uid).get()
           .then((doc) => {
             saldo = doc.data().saldo
-            if(saldo > 0 && saldo > this.valorTransferir){
+            if(saldo > 0 && saldo >= this.valorTransferir){
             saldo -= parseInt(this.valorTransferir)
             firebase.firestore().collection(`users`).doc(uid).update({saldo: saldo})
             // pega o usuario que ira receber a transferencia pelo this.select que veio fo select e faz a adição e update no saldo
