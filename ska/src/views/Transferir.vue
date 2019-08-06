@@ -138,6 +138,7 @@ export default {
 .voltar {
   display: flex;
   flex-direction: row;
+  margin-top:50px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   background-color: #4076ad;
