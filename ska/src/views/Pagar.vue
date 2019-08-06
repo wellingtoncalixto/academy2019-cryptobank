@@ -5,13 +5,13 @@
         <img alt="Vue logo" src="../assets/logo.png" />
       </div>
       <div class="voltar">
-        <a href="" @click="handleIndex"><img src="../assets/left-arrow.png" alt /></a>
-        <p class="item">Efetuar Pagamento</p>
+        <img @click="handleIndex" src="../assets/left-arrow.png" alt />
+        <p>Efetuar Pagamento</p>
       </div>
       <div class="depositar-valor">
         <p class="item">Informe a <strong>quantidade</strong> desejada
         </p>
-        <input v-model="valorPagar" class="item" autofocus type="number" placeholder="$KA 250,00" />
+        <input v-model="valorPagar" class="item" autofocus type="number" placeholder="$KA 0" />
         <p class="item" style="color:#333333; font-size:10px;">Digite um valor entre $KA 10,00 e $KA 15.000,00</p>
         <div class="action">
           <button @click="pagar">Pagar</button>
@@ -41,7 +41,7 @@ export default {
           .then((doc) => {
             saldo = doc.data().saldo
             if(saldo > 0){
-            saldo -= parseInt(this.valorPagar)
+            saldo -= parseFloat(this.valorPagar)
             firebase.firestore().collection(`users`).doc(uid).update({saldo: saldo})
             alert ('Pagamento efetuado com Sucesso!')
             }else{
@@ -71,6 +71,7 @@ export default {
     display: flex;
     justify-content: center;
 }
+
 .item {
   flex: 1;
   padding: 0 10px;
@@ -80,40 +81,34 @@ export default {
 .voltar {
   display: flex;
   flex-direction: row;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
   background-color: #4076ad;
-  border-radius: 10px;
-  margin-bottom: -15px;
-  margin-top: 50px;
+  height: 70px;
 }
-.voltar p {
+.voltar p{
+  flex:1;
+  margin-top:12px;
+  text-align: center;
   color: white;
-  font-size: 15px;
-  margin-top: 11px;
-  margin-bottom: 20px;
 }
-
-.voltar img {
-  float: left;
-  height: 15px;
-  margin-top: 7px;
-  margin-left: 5px;
+.voltar  img{
+  width: 16px;
+  height: 20px;
+  margin-top: 12px;
+  margin-left: 10px
 }
-.depositar-valor {
-  display: flex;
-  flex-direction: column;
+.depositar-valor{
+  display:flex;
+  flex-direction:column;
   background-color: white;
   border-radius: 10px;
+  margin-top: -30px;
 }
-.depositar-valor p {
-  color: #333333;
-  margin-left: 10px;
-  font-size: 20px;
-}
-.depositar-valor input {
-  color: #707070;
-  font-size: 30px;
-  margin: 5px;
-  border: none;
+.depositar-valor > input{
+  border:none;
+  height: 150px;
+  font-size: 1.5em;
 }
 .action {
   display: flex;
@@ -132,5 +127,6 @@ export default {
   margin-bottom: 10px;
   font-size: 20px;
 }
+
 </style>
  

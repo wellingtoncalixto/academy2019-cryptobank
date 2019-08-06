@@ -27,6 +27,13 @@ export default {
   data: () => ({
     valor: ''
   }),
+  mounted(){
+    if (this.valor <= 0) {
+      setTimeout(() => {  
+        alert('Você esta sem saldo, efetue um deposito')
+      }, 1000)
+    }
+  },
   methods:{
         handleDepositar (){
           this.$router.push({path: '/sarakin/depositar'})

@@ -37,13 +37,17 @@ export default {
   }),
   methods:{
     createAccount () {
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-      .then(()=>{
-        alert('Conta Criada Com Sucesso !')
-        this.$router.push({path: '/sarakin'})
-      }).catch((error) =>{
-        alert('Erro ao criar conta \n\n' + error)
-      })
+      if (this.password.length >= 6) {
+        firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+        .then(()=>{
+          alert('Conta Criada Com Sucesso !')
+          this.$router.push({path: '/sarakin'})
+        }).catch((error) =>{
+          alert('Erro ao criar conta \n\n' + error)
+        })  
+      }else{
+        alert('Insira um email e senha validos ')
+      }
     },
     handleAccount(){
       this.$router.push({path: '/login'})

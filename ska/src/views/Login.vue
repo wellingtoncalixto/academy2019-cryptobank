@@ -39,8 +39,8 @@ export default {
     singInAccount() {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         .then(() => {
-          alert("Bem Vindo " + this.email);
           this.$router.push({path: "/sarakin"})
+          alert("Bem Vindo " + this.email);
         })
         .catch(error => {
           alert("Erro ao Realizar o Login" + error);
